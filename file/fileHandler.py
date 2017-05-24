@@ -37,17 +37,21 @@ for threadName in threadNameSet:
 	result.write(threadName+"\n")
 	isInNoMpp3Line = False
 	isFindThreadLine = False
+	preLineHasThreadName = False
 	for line in allLines:
 		if threadName in line:
 			result.write(line)
 			isFindThreadLine = True
-		if isFindThreadLine:
-			if line.find('mpp3')==-1:
-				isInNoMpp3Line = True
-			if line.find('mpp3')!=-1:
-				isInNoMpp3Line = False
-			if isInNoMpp3Line:
-				result.write(line)
+			preLineHasThreadName = True
+		else:
+			if preLineHasThreadName:
+				if not 'mpp3' in line:
+					isInNoMpp3Line = True
+				if 'mpp3' in line:
+					isInNoMpp3Line = False
+					preLineHasThreadName = False
+				if isInNoMpp3Line:
+					result.write(line)
 
 result.close()	
 
