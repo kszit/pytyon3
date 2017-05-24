@@ -31,12 +31,25 @@ for line in allLines:
 
 print('线程数:'+str(len(threadNameSet)))
 
-#遍历所有线程			
+result = open('./uqs_result.txt','w')
+#按照线程整理数据，并输出到文件中			
 for threadName in threadNameSet:
-	print(threadName)
+	result.write(threadName+"\n")
+	isInNoMpp3Line = False
+	isFindThreadLine = False
 	for line in allLines:
 		if threadName in line:
-			print(line)
-	
+			result.write(line)
+			isFindThreadLine = True
+		if isFindThreadLine:
+			if line.find('mpp3')==-1:
+				isInNoMpp3Line = True
+			if line.find('mpp3')!=-1:
+				isInNoMpp3Line = False
+			if isInNoMpp3Line:
+				result.write(line)
+
+result.close()	
+
 print('结束--文件处理')
 
